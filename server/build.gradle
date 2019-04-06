@@ -1,0 +1,26 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    baseName = 'shadow'
+    classifier = null
+    version = null
+}
+
+dependencies {
+    //classpath 'com.android.tools.build:gradle:3.2.1'
+    testImplementation 'junit:junit:4.12'
+    testImplementation 'org.slf4j:slf4j-jdk14:1.7.5'
+
+    implementation "com.amazonaws.serverless:aws-serverless-java-container-jersey:1.1.4"
+    implementation "org.glassfish.jersey.media:jersey-media-json-jackson:2.27"
+    implementation 'org.glassfish.jersey.core:jersey-common:2.27'
+    implementation 'org.glassfish.jersey.inject:jersey-hk2:2.27'
+
+    implementation project(':core')
+
+    // NOTE: Do not place your application dependencies here; they belong
+    // in the individual module build.gradle files
+}
+
