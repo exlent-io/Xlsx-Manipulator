@@ -1,7 +1,7 @@
 package tw.inspect.poi
 
 
-import org.junit.Test
+import org.junit.jupiter.api.Test
 
 
 class StreamLambdaHandlerTest {

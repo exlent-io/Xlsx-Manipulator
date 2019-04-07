@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: AWS Serverless Jersey API - my.service
+Resources:
+  Compose:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: my.service.StreamLambdaHandler::handleRequest
+      Runtime: java8
+      CodeUri: server/build/libs/shadow.jar
+      MemorySize: 512
+      Policies:
+        - Statement:
+          - Effect: Allow
+            Action:
+              - 'dynamodb:*'
+              - 'logs:CreateLogGroup'
+              - 'logs:CreateLogStream'
+              - 'logs:PutLogEvents'
+            Resource:
+              - '*'
+      Timeout: 15
+      Events:
+        GenerateId:
+          Type: Api
+          Properties:
+            Path: /xlsxmanipulator/compose
+            Method: post
+
+#
+#  ApiGatewayApi:
+#    Type: AWS::Serverless::Api
+#    Properties:
+#      DefinitionUri: oas30-apigateway.yaml
+#      StageName: Prod
+#      Variables:
+#        # NOTE: Before using this template, replace the <<region>> and <<account>> fields
+#        #       in Lambda integration URI in the swagger file to region and accountId 
+#        #       you are deploying to
+
+Outputs:
+  ApiURL:
+    Description: URL of your API endpoint
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

@@ -1,0 +1,73 @@
+openapi: "3.0.1"
+info:
+  title: "PetStore"
+  version: "2018-10-26T09:36:50Z"
+servers:
+- url: "https://XXX.execute-api.us-east-1.amazonaws.com/{basePath}"
+  variables:
+    basePath:
+      default: "/test"
+paths:
+  /xlsxmanipulator/compose:
+    post:
+      operationId: "Compose"
+      responses:
+        200:
+          description: "200 response"
+          headers:
+            Access-Control-Allow-Origin:
+              schema:
+                type: "string"
+          content:
+            application/json:
+              schema:
+                type: "string"
+      x-amazon-apigateway-integration:
+        uri: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${stageVariables.Region}:${stageVariables.AwsAccountId}:function:${stageVariables.IdGenerator}/invocations"
+        responses:
+          default:
+            statusCode: "200"
+            responseParameters:
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+        passthroughBehavior: "when_no_match"
+        httpMethod: "POST"
+        type: "aws"
+components:
+  schemas:
+    Pets:
+      type: "array"
+      items:
+        $ref: "#/components/schemas/Pet"
+    Empty:
+      type: "object"
+    NewPetResponse:
+      type: "object"
+      properties:
+        pet:
+          $ref: "#/components/schemas/Pet"
+        message:
+          type: "string"
+    Pet:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        type:
+          type: "string"
+        price:
+          type: "number"
+    NewPet:
+      type: "object"
+      properties:
+        type:
+          $ref: "#/components/schemas/PetType"
+        price:
+          type: "number"
+    PetType:
+      type: "string"
+      enum:
+      - "dog"
+      - "cat"
+      - "fish"
+      - "bird"
+      - "gecko"

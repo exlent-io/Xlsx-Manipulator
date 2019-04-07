@@ -1,0 +1,57 @@
+variables:
+    
+    #S3_BUCKET:
+    AWS_DEFAULT_REGION: us-east-1
+    #AWS_ACCOUNT_ID: 
+    #AWS_ACCESS_KEY_ID: 
+    #AWS_SECRET_KEY:
+
+stages:
+    - test_and_build
+    - build
+    - package_and_deploy 
+
+test:
+    variables:
+        CI_DEBUG_TRACE: "true"
+    stage: test_and_build
+    image: openjdk:8
+    script:
+        - ./gradlew clean test --info --stacktrace
+    artifacts:
+        untracked: true
+build:
+    only:
+        - master
+    stage: test_and_build
+    image: openjdk:8-alpine
+    script:
+        - ./gradlew clean shadowJar --info --debug -P DEPLOY= 
+    # artifacts describe the result of the stage
+    # that can be used in consecutive stages
+    artifacts:
+        untracked: true
+
+packageAndDeploy:
+    only:
+        - master
+    except:
+        variables:
+            - $CI_COMMIT_TITLE =~ /\[no-ci\]/
+    stage: package_and_deploy
+    image: tarekbecker/awscli
+    # use the artifcats of the 'build' job
+    dependencies:
+        - build
+    script:
+        # package uploads the source code to S3 and creates a new
+        # template file with a reference to the code in S3
+        - aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
+        # use the template-export file to deploy the stack
+        # the cloud formation stack name is prod for our stack
+        - aws cloudformation deploy --template-file template-export.yml --stack-name demo-pipeline-java-prod-stack --capabilities CAPABILITY_IAM
+
+    artifacts:
+        paths:
+            # the modified template is the result of this stage
+            - ./template-export.yml
