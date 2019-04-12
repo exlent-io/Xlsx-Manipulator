@@ -44,7 +44,7 @@ class P {
 }
 
 
-private fun copyRows(
+fun copyRows(
     srcSheet: Sheet,
     dstSheet: Sheet,
     srcFirstRow: Int,
@@ -160,18 +160,18 @@ private fun copyRange(
 
 
     fun copyCells() {
-        (srcFirstRow..srcLastRow).forEach { i ->
-            val srcRow: Row? = srcSheet.getRow(i)
+        (srcFirstRow..srcLastRow).forEachIndexed { forEachIndex, srcRowIndex  ->
+            val srcRow: Row? = srcSheet.getRow(srcRowIndex)
 
             if (srcRow == null) {
                 if (adjustRowHeight.setEmptySrcDefault()) {
-                    val dstRow = dstSheet.getRow(i + dstFirstRow) ?: dstSheet.createRow(i + dstFirstRow)!!
+                    val dstRow = dstSheet.getRow(forEachIndex + dstFirstRow) ?: dstSheet.createRow(forEachIndex + dstFirstRow)!!
                     dstRow.height = srcSheet.defaultRowHeight
                 }
-                return@forEach
+                return@forEachIndexed
             }
 
-            val dstRow = dstSheet.getRow(i + dstFirstRow) ?: dstSheet.createRow(i + dstFirstRow)!!
+            val dstRow = dstSheet.getRow(forEachIndex + dstFirstRow) ?: dstSheet.createRow(forEachIndex + dstFirstRow)!!
 
             if (adjustRowHeight.adjustRowHeight()) {
                 dstRow.height = srcRow.height
@@ -185,14 +185,28 @@ private fun copyRange(
 
                 val newCell = dstRow.createCell(j)!!
                 newCell.cellStyle = fromCell.cellStyle
-                val cType = fromCell.cellType
-                newCell.cellType = cType
+
+                newCell.cellType = fromCell.cellType
+
+                val cType = if (fromCell.cellType == CellType.FORMULA) {
+                    // TODO  improve - update formula reference ?
+
+                    /** @return one of ({@link CellType#NUMERIC}, {@link CellType#STRING},
+                     *     {@link CellType#BOOLEAN}, {@link CellType#ERROR}) depending
+                     * on the cached value of the formula
+                     */
+                    newCell.cellFormula = fromCell.cellFormula
+                    fromCell.cachedFormulaResultType
+                } else {
+                    fromCell.cellType
+                }
+
                 when (cType) {
                     CellType.NUMERIC -> newCell.setCellValue(fromCell.numericCellValue)
                     CellType.STRING -> newCell.setCellValue(fromCell.richStringCellValue)
                     CellType.BOOLEAN -> newCell.setCellValue(fromCell.booleanCellValue)
-                    // TODO  improve - update formula reference ?
-                    CellType.FORMULA -> newCell.cellFormula = fromCell.cellFormula
+                    CellType.FORMULA -> {
+                    }
                     // TODO add flag to toggle ignore blank, may be useful for avoid override exist value
                     CellType.BLANK -> newCell.setCellValue(fromCell.richStringCellValue)
                     CellType.ERROR -> newCell.setCellValue(fromCell.errorCellValue.toDouble())

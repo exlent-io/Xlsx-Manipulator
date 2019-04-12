@@ -12,14 +12,12 @@ shadowJar {
 }
 
 dependencies {
-    
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.5.0-M1'
     testRuntime("org.junit.jupiter:junit-jupiter-engine:5.5.0-M1")
     testRuntime("org.junit.platform:junit-platform-runner:1.5.0-M1")
     testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
-
-    //testImplementation 'org.slf4j:slf4j-jdk14:1.7.5'
 
     implementation 'javax.activation:activation:1.1.1'
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
@@ -31,6 +29,9 @@ dependencies {
     implementation "org.glassfish.jersey.media:jersey-media-json-jackson:2.28"
     implementation 'org.glassfish.jersey.core:jersey-common:2.28'
     implementation 'org.glassfish.jersey.inject:jersey-hk2:2.28'
+
+    testImplementation 'org.glassfish.jersey.containers:jersey-container-grizzly2-http:2.28'
+
 
     implementation project(':core')
 

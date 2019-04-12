@@ -5,8 +5,6 @@ import org.apache.poi.ss.usermodel.Sheet
 import org.apache.poi.xssf.usermodel.*
 
 
-
-
 fun Sheet.copyAllDraw(destSheet: Sheet) {
     if (this is XSSFSheet && destSheet is XSSFSheet) {
         copyAllDraw(destSheet)
@@ -35,7 +33,7 @@ fun XSSFSheet.getXSSFDrawing(): XSSFDrawing? {
 }
 
 fun copySimpleShape(shape: XSSFShape, newSheet: XSSFSheet) {
-    if(shape !is XSSFSimpleShape) {
+    if (shape !is XSSFSimpleShape) {
         return
     }
     val simpleShape = shape
@@ -53,9 +51,8 @@ fun copySimpleShape(shape: XSSFShape, newSheet: XSSFSheet) {
 
     val newWb = newSheet.workbook
     val newHelper = newWb.creationHelper
-    val newDrawing = newSheet.createDrawingPatriarch()
-    val newAnchor = newHelper.createClientAnchor()
-
+    val newDrawing: XSSFDrawing? = newSheet.createDrawingPatriarch()//?:return
+    val newAnchor = newHelper.createClientAnchor()//?:return
 
 
     // Row / Column placement.
@@ -70,17 +67,25 @@ fun copySimpleShape(shape: XSSFShape, newSheet: XSSFSheet) {
     newAnchor.dy1 = y1
     newAnchor.dy2 = y2
 
-    val dstSimpleShape = newDrawing.createSimpleShape(
-        XSSFClientAnchor(0, 0, 0, 0, 26, 26, 30, 30)
+    val dstSimpleShape = newDrawing?.createSimpleShape(
+        //XSSFClientAnchor(0, 0, 0, 0, 26, 26, 30, 30)
+        XSSFClientAnchor(
+            newAnchor.dx1,
+            newAnchor.dy1,
+            newAnchor.dx2,
+            newAnchor.dy1,
+            newAnchor.col1.toInt(),
+            newAnchor.row1,
+            newAnchor.col2.toInt(),
+            newAnchor.row2
+        )
     )
 
     //dstSimpleShape.shapeType = simpleShape.shapeType
     //dstSimpleShape.bottomInset = simpleShape.bottomInset
-    dstSimpleShape.text = simpleShape.text
+    dstSimpleShape?.text = simpleShape.text
 
 }
-
-
 
 
 fun copyPicture(shape: XSSFShape, newSheet: XSSFSheet) {
