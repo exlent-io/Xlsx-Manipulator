@@ -5,12 +5,12 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.apache.poi.ss.usermodel.Workbook
 
 
-class RpcExec(val wb: Workbook){
+class RpcExec(val wb: Workbook) {
 
-    fun exec(rpc: Rpc.Section) :RpcExec{
-        println( ObjectMapper().writeValueAsString(rpc))
+    fun exec(rpc: Rpc.Section): RpcExec {
+        println(ObjectMapper().writeValueAsString(rpc))
 
-        when(rpc) {
+        when (rpc) {
             is Rpc.AddSheet -> {
                 wb.createSheet(rpc.name)
                 wb.setSheetOrder(rpc.name, rpc.order.toInt())
@@ -28,11 +28,11 @@ class RpcExec(val wb: Workbook){
 
                 val srcRowRange = "^(.*)~(.*)$".toRegex().matchEntire(rpc.srcRowRange)!!
                     .destructured
-                    .let {(a, b) ->
+                    .let { (a, b) ->
                         Pair(a.toInt(), b.toInt())
                     }
 
-                println("${srcRowRange.first} ${srcRowRange.second} to ${rpc.dstRow.toInt() -1}")
+                println("${srcRowRange.first} ${srcRowRange.second} to ${rpc.dstRow.toInt() - 1}")
 
                 /**
                  * Turn 1-based to 0-based
@@ -40,15 +40,21 @@ class RpcExec(val wb: Workbook){
                 copyRows(
                     srcSheet,
                     dstSheet,
-                    srcRowRange.first -1,
-                    srcRowRange.second -1,
-                    rpc.dstRow.toInt() -1,
+                    srcRowRange.first - 1,
+                    srcRowRange.second - 1,
+                    rpc.dstRow.toInt() - 1,
                     true,
                     AdjustRowHeight.ADJUST_LEAVE_EMPTY_ALONE
                 )
             }
             is Rpc.Fill -> {
-                //wb.getSheet(rpc.sheet).g
+                val rowCol = "^([A-Z]+)(\\d+)$".toRegex().matchEntire(rpc.co)!!
+                    .destructured
+                    .let { (col, row) ->
+                        Pair(row.toInt() - 1, col.fold(0) { a, b -> a * 26 + (b - 'A') })
+                    }
+                val row = wb.getSheet(rpc.sheet).getRow(rowCol.first)!!
+                (rowCol.second).let { row.getCell(it) ?: row.createCell(it) }.setCellValue(rpc.value)
             }
         }
         return this

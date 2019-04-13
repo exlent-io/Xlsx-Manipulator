@@ -17,7 +17,7 @@ dependencies {
     implementation "org.glassfish.jersey.media:jersey-media-json-jackson:2.28"
 
 
-    implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
+    // implementation 'io.reactivex.rxjava2:rxjava:2.2.8'
     // NOTE: Do not place your application dependencies here; they belong
     // in the individual module build.gradle files
 }
