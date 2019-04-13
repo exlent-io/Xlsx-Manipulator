@@ -34,7 +34,7 @@ Resources:
               - 'logs:PutLogEvents'
             Resource:
               - '*'
-      Timeout: 15
+      Timeout: 60
       Events:
         GenerateId:
           Type: Api

@@ -49,7 +49,7 @@ packageAndDeploy:
         - aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
         # use the template-export file to deploy the stack
         # the cloud formation stack name is prod for our stack
-        - aws cloudformation deploy --template-file template-export.yml --stack-name demo-pipeline-java-prod-stack --capabilities CAPABILITY_IAM
+        - aws cloudformation deploy --template-file template-export.yml --stack-name xlsxmanipulator --capabilities CAPABILITY_IAM
 
     artifacts:
         paths:
