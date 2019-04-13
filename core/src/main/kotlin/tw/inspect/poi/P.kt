@@ -137,10 +137,10 @@ private fun copyRange(
             if (region.firstRow >= srcFirstRow && region.lastRow <= srcLastRow && region.firstColumn >= srcFirstColumn && region.lastColumn <= srcLastColumn) {
                 dstSheet.addMergedRegion(
                     CellRangeAddress(
-                        region.firstRow + dstFirstRow,
-                        region.lastRow + dstFirstRow,
-                        region.firstColumn + dstFirstColumn,
-                        region.lastColumn + dstFirstColumn
+                        dstFirstRow - srcFirstRow + region.firstRow,
+                        dstFirstRow - srcFirstRow + region.lastRow,
+                        dstFirstColumn - srcFirstColumn + region.firstColumn,
+                        dstFirstColumn - srcFirstColumn + region.lastColumn
                     )
                 )
             }
@@ -160,12 +160,13 @@ private fun copyRange(
 
 
     fun copyCells() {
-        (srcFirstRow..srcLastRow).forEachIndexed { forEachIndex, srcRowIndex  ->
+        (srcFirstRow..srcLastRow).forEachIndexed { forEachIndex, srcRowIndex ->
             val srcRow: Row? = srcSheet.getRow(srcRowIndex)
 
             if (srcRow == null) {
                 if (adjustRowHeight.setEmptySrcDefault()) {
-                    val dstRow = dstSheet.getRow(forEachIndex + dstFirstRow) ?: dstSheet.createRow(forEachIndex + dstFirstRow)!!
+                    val dstRow =
+                        dstSheet.getRow(forEachIndex + dstFirstRow) ?: dstSheet.createRow(forEachIndex + dstFirstRow)!!
                     dstRow.height = srcSheet.defaultRowHeight
                 }
                 return@forEachIndexed
