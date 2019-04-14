@@ -10,6 +10,7 @@ import javax.ws.rs.core.Response;
 import java.util.HashMap;
 import java.util.Map;
 
+import static my.service.resource.ErrorPrinter.getStackTraceString;
 import static tw.inspect.poi.HiKt.digestFromBase64;
 
 @Path("/xlsxmanipulator/compose")
@@ -27,7 +28,7 @@ public class PingResource {
             pong.put("out", digestFromBase64(composeRequest.templateBase64, composeRequest.sections));
         } catch (Throwable t) {
             t.printStackTrace();
-            throw t;
+            return Response.status(500).entity(getStackTraceString(t)).build();
         }
         return Response.status(200).entity(pong).build();
     }

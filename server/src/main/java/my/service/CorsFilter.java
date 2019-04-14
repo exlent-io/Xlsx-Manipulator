@@ -58,9 +58,9 @@ public class CorsFilter implements ContainerRequestFilter, ContainerResponseFilt
                     // Whatever other non-standard/safe headers (see list above)
                     // you want the client to be able to send to the server,
                     // put it in this list. And remove the ones you don't want.
-                    "X-Requested-With, Authorization, " +
-                            "Accept-Version, Content-MD5, CSRF-Token, " +
-                            "Content-Type");
+                    "X-Requested-With, Authorization, Accept-Version, Content-MD5, CSRF-Token, Content-Type, Accept, " +
+                            "Origin, Referer, User-Agent"
+            );
         }
 
         // Cross origin requests can be either simple requests
