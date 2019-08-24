@@ -3,10 +3,7 @@ package tw.inspect.poi
 import org.apache.poi.ss.SpreadsheetVersion
 import org.apache.poi.ss.usermodel.Workbook
 import org.apache.poi.ss.usermodel.WorkbookFactory
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
+import java.io.*
 import java.util.*
 
 
@@ -39,9 +36,10 @@ fun digestFromFile() {
 
 }
 
-fun digestFromBase64(xlsxBase64: String, sections: List<Rpc.Section>): String {
 
-    val wb = WorkbookFactory.create(ByteArrayInputStream(Base64.getDecoder().decode(xlsxBase64))).apply {
+fun digestFromInputStream(inputStream: InputStream, sections: List<Rpc.Section>): ByteArrayOutputStream {
+
+    val wb = WorkbookFactory.create(inputStream).apply {
         if (spreadsheetVersion == SpreadsheetVersion.EXCEL97) {
             throw CoreException.UnsupportedVersionException()
         }
@@ -50,8 +48,6 @@ fun digestFromBase64(xlsxBase64: String, sections: List<Rpc.Section>): String {
 
     return ByteArrayOutputStream().also {
         wb.write(it)
-    }.let {
-        String(Base64.getEncoder().encode(it.toByteArray()))
     }
 }
 

@@ -1,0 +1,332 @@
+{
+  "template_url": "https://fancyjointtest.s3.amazonaws.com/template/a.xlsx",
+  "gdrive_path": "1RaI1MdsdnAwxmjqE2HRlw10Ne03wUT9U",
+  "gdrive_filename": "qq.xlsx",
+  "sections": [
+    {
+      "op": "ADD_SHEET",
+      "name": "temp1",
+      "order": 0
+    },
+    {
+      "op": "COPY_ROWS",
+      "srcSheet": "Sheet1",
+      "srcRowRange": "1~24",
+      "dstSheet": "temp1",
+      "dstRow": "1",
+      "extra": "ADJUST_COLUMN_WIDTH",
+      "value": []
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "N6",
+      "title": "invoice NO.",
+      "extra": "手動",
+      "value": "invoice NO."
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "N7",
+      "title": "DATE",
+      "extra": "自動產生 (格式：\"4/01\")",
+      "value": "4/01"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "N8",
+      "title": "TAX ID",
+      "extra": "手動",
+      "value": "TAX ID"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "G9",
+      "title": "TO",
+      "extra": "手動(格式：”TO : ${input}\")",
+      "value": "TO : ${input}"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "K10",
+      "title": "ON BOARD DATE",
+      "extra": "手動",
+      "value": "ON BOARD DATE"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "K11",
+      "title": "SHIPPED Via",
+      "extra": "手動",
+      "value": "SHIPPED Via"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "J15",
+      "title": "R/NO.(part1)",
+      "extra": "手動(格式： “R/NO. ${input}”)",
+      "value": "R/NO. ${input}"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "J16",
+      "title": "R/NO.(part2)",
+      "extra": "手動",
+      "value": "R/NO.(part2)"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "J17",
+      "title": "J17",
+      "extra": "自動產生",
+      "value": "MADE IN TAIWAN"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "J18",
+      "title": "J18",
+      "extra": "自動產生",
+      "value": "ROC"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "J24",
+      "title": "COUNTRY",
+      "extra": "手動",
+      "value": "COUNTRY"
+    },
+    {
+      "op": "COPY_ROWS",
+      "srcSheet": "Sheet1",
+      "srcRowRange": "25~26",
+      "dstSheet": "temp1",
+      "dstRow": "25",
+      "extra": "",
+      "value": []
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "C25",
+      "title": "SERIAL",
+      "extra": "自動(格式：兩位數 \"01.\" ~ \"99.\"",
+      "value": "01."
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "D25",
+      "title": "PARTNO.",
+      "extra": "自動，根據DB",
+      "value": "1R900000000"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "E25",
+      "title": "PONO.",
+      "extra": "自動，根據DB",
+      "value": "4000000000"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "D26",
+      "title": "DESCRIPTION",
+      "extra": "自動，根據DB",
+      "value": "TBL-WL707_PU_0.7mm_AFTERDARK+2mmEVA  19-1101TPX"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "H26",
+      "title": "QUANTITY",
+      "extra": "手動(格式：5,000.0 )",
+      "value": "5,000.0"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "I26",
+      "title": "UNIT",
+      "extra": "FIXED (“FT²”)",
+      "value": "FT²"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "J26",
+      "title": "UNIT PRICE",
+      "extra": "自動，根據DB(格式：US${'$'}5,000.000)",
+      "value": "US${'$'}5,000.000"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "N26",
+      "title": "SUB. TOTAL",
+      "extra": "(自動，乘法，四捨五入(格式： US${'$'}5,000.00)",
+      "value": "US${'$'}25,000,000.00"
+    },
+    {
+      "op": "COPY_ROWS",
+      "srcSheet": "Sheet1",
+      "srcRowRange": "33~34",
+      "dstSheet": "temp1",
+      "dstRow": "27",
+      "extra": "",
+      "value": []
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "C27",
+      "title": "SERIAL",
+      "extra": "自動(格式：兩位數 \"01.\" ~ \"99.\"",
+      "value": "01."
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "D27",
+      "title": "PARTNO.",
+      "extra": "自動，根據DB",
+      "value": "1R900000000"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "E27",
+      "title": "PONO.",
+      "extra": "自動，根據DB",
+      "value": "4000000000"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "D28",
+      "title": "DESCRIPTION",
+      "extra": "自動，根據DB",
+      "value": "TBL-WL707_PU_0.7mm_AFTERDARK+2mmEVA  19-1101TPX"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "H28",
+      "title": "QUANTITY",
+      "extra": "手動(格式：5,000.0 )",
+      "value": "5,000.0"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "I28",
+      "title": "UNIT",
+      "extra": "FIXED (“FT²”)",
+      "value": "FT²"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "J28",
+      "title": "UNIT PRICE",
+      "extra": "自動，根據DB(格式：US${'$'}5,000.000)",
+      "value": "US${'$'}5,000.000"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "N28",
+      "title": "SUB. TOTAL",
+      "extra": "(自動，乘法，四捨五入(格式： US${'$'}5,000.00)",
+      "value": "US${'$'}25,000,000.00"
+    },
+    {
+      "op": "COPY_ROWS",
+      "srcSheet": "Sheet1",
+      "srcRowRange": "35~35",
+      "dstSheet": "temp1",
+      "dstRow": "29",
+      "extra": "ADJUST_COLUMN_WIDTH",
+      "value": []
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "H29",
+      "title": "TOTAL QUANTITY",
+      "extra": "自動，加法(格式：5,000.0)",
+      "value": "10,000.0"
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "N29",
+      "title": "TOTAL",
+      "extra": "自動，加法(格式：US${'$'}5,000.00)",
+      "value": "US${'$'}50,000,000.00"
+    },
+    {
+      "op": "COPY_ROWS",
+      "srcSheet": "Sheet1",
+      "srcRowRange": "37~37",
+      "dstSheet": "temp1",
+      "dstRow": "31",
+      "extra": "",
+      "value": []
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "D31",
+      "title": "TOTAL IN ENGLISH FRAGMENT",
+      "extra": "自動(格式：SAY TOTAL US DOLLARS SIXTY EIGHT THOUSAND FOUR HUNDREDNINETY TWO AND CENTS FOUR ONLY.-)",
+      "value": "SAY TOTAL US DOLLARS SIXTY EIGHT THOUSAND FOUR HUNDREDNINETY"
+    },
+    {
+      "op": "COPY_ROWS",
+      "srcSheet": "Sheet1",
+      "srcRowRange": "37~37",
+      "dstSheet": "temp1",
+      "dstRow": "32",
+      "extra": "",
+      "value": []
+    },
+    {
+      "op": "FILL",
+      "sheet": "temp1",
+      "co": "D32",
+      "title": "TOTAL IN ENGLISH FRAGMENT",
+      "extra": "自動(格式：SAY TOTAL US DOLLARS SIXTY EIGHT THOUSAND FOUR HUNDREDNINETY TWO AND CENTS FOUR ONLY.-)",
+      "value": "TWO AND CENTS FOUR ONLY.-)"
+    },
+    {
+      "op": "COPY_ROWS",
+      "srcSheet": "Sheet1",
+      "srcRowRange": "41~45",
+      "dstSheet": "temp1",
+      "dstRow": "35",
+      "extra": "ADJUST_COLUMN_WIDTH",
+      "value": []
+    },
+    {
+      "op": "DELETE_SHEET",
+      "name": "Sheet1"
+    },
+    {
+      "op": "RENAME_SHEET",
+      "oldName": "temp1",
+      "newName": "Sheet1"
+    }
+  ]
+}

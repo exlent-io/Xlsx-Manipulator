@@ -53,6 +53,7 @@ class RpcExec(val wb: Workbook) {
                     .let { (col, row) ->
                         Pair(row.toInt() - 1, col.fold(0) { a, b -> a * 26 + (b - 'A') })
                     }
+                println(rowCol)
                 val row = wb.getSheet(rpc.sheet).getRow(rowCol.first)!!
                 (rowCol.second).let { row.getCell(it) ?: row.createCell(it) }.setCellValue(rpc.value)
             }

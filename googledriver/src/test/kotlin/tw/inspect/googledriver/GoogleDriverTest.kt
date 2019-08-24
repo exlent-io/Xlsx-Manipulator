@@ -9,7 +9,8 @@ class GoogleDriverTest {
 
     @Test
     fun ping_streamRequest_respondsWithHello() {
-        saveFile()
+        val drive = getDriveService()
+        createSubDir(drive, "1RaI1MdsdnAwxmjqE2HRlw10Ne03wUT9U")
         assertTrue(true)
         println("end")
     }

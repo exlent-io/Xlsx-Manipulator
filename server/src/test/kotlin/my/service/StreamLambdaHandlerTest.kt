@@ -7,19 +7,25 @@ import com.amazonaws.serverless.proxy.internal.testutils.MockLambdaContext
 import com.amazonaws.serverless.proxy.model.AwsProxyResponse
 import com.amazonaws.services.lambda.runtime.Context
 import com.fasterxml.jackson.databind.ObjectMapper
-import my.service.resource.ComposeRequest
+import my.service.models.ComposeRequest
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import tw.inspect.poi.Rpc
 import java.io.ByteArrayOutputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
+import java.util.*
 import javax.ws.rs.HttpMethod
 import javax.ws.rs.core.HttpHeaders
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
+import java.io.FileOutputStream
+import java.io.OutputStream
+
+
 
 
 class StreamLambdaHandlerTest {
@@ -30,7 +36,9 @@ class StreamLambdaHandlerTest {
         val jsonDataString =
             ObjectMapper().writeValueAsString(
                 ComposeRequest(
-                    "ee", arrayListOf(
+                    null,
+                    "ee",
+                    arrayListOf(
                         Rpc.RenameSheet("Sheet1", "Sheet111"),
                         Rpc.Fill("123", "456", "789", "101112", ""),
                         Rpc.AddSheet("456", "456"),
@@ -53,15 +61,15 @@ class StreamLambdaHandlerTest {
     }
 
 
-    @Disabled
+    //@Disabled
     @Test
     fun compose_streamRequest_respondsWithHello() {
         println(MediaType("application", "json", "utf-8").toString())
-        val requestStream = AwsProxyRequestBuilder("/xlsxmanipulator/compose", HttpMethod.POST)
+        val requestStream = AwsProxyRequestBuilder("/xlsx/compose", HttpMethod.POST)
             .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
             // Must add "charset=utf-8"
             .header(HttpHeaders.CONTENT_TYPE, MediaType("application", "json", "utf-8").toString())
-            .body("""{"template_base64":"ee","sections":[{"op":"FILL","sheet":"temp1","co":"I26","title":"UNIT","extra":"FIXED (“FT”)","value":"FT²"}]}""")
+            .body(File("flow1.json").readText(Charsets.UTF_8))
             .buildStream()
         val responseStream = ByteArrayOutputStream()
 
@@ -73,8 +81,39 @@ class StreamLambdaHandlerTest {
 
         assertFalse(response.isBase64Encoded)
 
-        assertTrue(response.body.contains("pong"))
-        assertTrue(response.body.contains("Hello, World!"))
+        val out = ObjectMapper().readTree(response.body).path("out").textValue()
+        FileOutputStream("out.xlsx").use { stream -> stream.write(Base64.getDecoder().decode(out)) }
+
+
+        assertTrue(response.multiValueHeaders.containsKey(HttpHeaders.CONTENT_TYPE))
+
+        assertTrue(response.multiValueHeaders[HttpHeaders.CONTENT_TYPE]!!.fold(false) { a, b ->
+            a || b.startsWith(
+                MediaType.APPLICATION_JSON
+            )
+        })
+    }
+
+    @Test
+    fun compose_streamRequest_respondsServiceMail() {
+        println(MediaType("application", "json", "utf-8").toString())
+        val requestStream = AwsProxyRequestBuilder("/gserviceaccount", HttpMethod.GET)
+            .header(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON)
+            .buildStream()
+        val responseStream = ByteArrayOutputStream()
+
+        handle(requestStream, responseStream)
+
+        val response = readResponse(responseStream)
+        assertNotNull(response)
+        assertEquals(Response.Status.OK.statusCode.toLong(), response!!.statusCode.toLong())
+
+        assertFalse(response.isBase64Encoded)
+
+
+        val mail = ObjectMapper().readTree(response.body).path("mail").textValue()
+        println(mail)
+        assertTrue(mail.contains("@"))
 
         assertTrue(response.multiValueHeaders.containsKey(HttpHeaders.CONTENT_TYPE))
 

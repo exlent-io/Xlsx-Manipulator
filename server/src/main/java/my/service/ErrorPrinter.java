@@ -1,4 +1,4 @@
-package my.service.resource;
+package my.service;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;

@@ -39,8 +39,8 @@ Resources:
         GenerateId:
           Type: Api
           Properties:
-            Path: /xlsxmanipulator/compose
-            Method: post
+            Path: /{proxy+}
+            Method: ANY
 
 #
 #  ApiGatewayApi:
