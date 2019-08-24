@@ -1,0 +1,39 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+apply plugin: 'java'
+
+apply plugin: 'de.fuerstenau.buildconfig'
+
+sourceSets {
+    generated {
+        java.srcDir "${buildDir}/gen/buildconfig/src/main"
+    }
+}
+
+compileJava {
+    dependsOn(compileGeneratedJava)
+    source += sourceSets.generated.java.getSrcDirs()
+}
+
+buildConfig {
+    sourceSets {
+        main {
+            packageName = 'buildconfig'  // sets the package of the BuildConfig class,
+
+            buildConfigField 'String', 'GOOGLE_CREDENTIALS', project.rootProject.file('cret.json').getText('UTF-8').bytes.encodeBase64().toString()
+            buildConfigField 'String', 'MY_STR_FIELD', 'my message to the app'
+            buildConfigField 'String', 'MY_STR_FIELD2', {
+                'some lazy evaluated value'
+            }
+            buildConfigField 'int', 'MY_INT_FIELD', '42'
+            buildConfigField 'byte[]', 'MY_BYTE_ARRAY_FIELD', '{ (byte) 0xfa, (byte) 0x20, (byte) 0x22 }'
+            buildConfigField 'long', 'BUILD_UNIXTIME', System.currentTimeMillis() + 'L'
+            buildConfigField 'java.util.Date', 'BUILD_DATE', 'new java.util.Date(' + System.currentTimeMillis() + 'L)'
+            buildConfigField 'java.time.Instant', 'BUILD_INSTANT', 'java.time.Instant.ofEpochMilli(' + System.currentTimeMillis() + 'L)'
+
+            buildConfigField 'boolean', 'DEPLOY', project.ext.has("DEPLOY") ? "true" : "false"
+        }
+        test {
+
+        }
+    }
+}

@@ -16,9 +16,12 @@ public class ComposeRequest {
     @JsonProperty("sections")
     public final ArrayList<Rpc.Section> sections;
 
+
     public ComposeRequest(
             @JsonProperty("template_base64") final String templateBase64,
-            @JsonProperty("sections") final ArrayList<Rpc.Section> sections
+            @JsonProperty("sections") final ArrayList<Rpc.Section> sections,
+            @JsonProperty("output_google_drive_path") final String outputGoogleDrivePath,
+            @JsonProperty("output_filename") final String outputFilename
     ) {
         this.templateBase64 = templateBase64;
         this.sections = sections;

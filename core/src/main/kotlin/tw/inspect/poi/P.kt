@@ -135,6 +135,7 @@ private fun copyRange(
     fun copyFormat() {
         srcSheet.mergedRegions.forEach { region ->
             if (region.firstRow >= srcFirstRow && region.lastRow <= srcLastRow && region.firstColumn >= srcFirstColumn && region.lastColumn <= srcLastColumn) {
+                println("${dstFirstRow - srcFirstRow + region.firstRow} ${dstFirstRow - srcFirstRow + region.lastRow} ${dstFirstColumn - srcFirstColumn + region.firstColumn} ${dstFirstColumn - srcFirstColumn + region.lastColumn}")
                 dstSheet.addMergedRegion(
                     CellRangeAddress(
                         dstFirstRow - srcFirstRow + region.firstRow,

@@ -36,7 +36,9 @@ class StreamLambdaHandlerTest {
                         Rpc.AddSheet("456", "456"),
                         Rpc.DeleteSheet("456"),
                         Rpc.CopyRows("456", "456", "456", "456", "456")
-                    )
+                    ),
+                    null,
+                    null
                 )
             )
         println(jsonDataString)

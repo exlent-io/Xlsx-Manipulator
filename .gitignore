@@ -69,3 +69,6 @@ fastlane/readme.md
 
 .env
 template-export.yml
+
+#google cert
+cret.json
