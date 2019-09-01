@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
 Description: AWS Serverless Jersey API - my.service
-Globals:
+# Globals:
 
   # Function:
   #   Runtime: nodejs8.10
@@ -9,13 +9,13 @@ Globals:
   #     Variables:
   #       TABLE_NAME: !Ref Table
 
-  Api:
+  # Api:
     # enable CORS; to make more specific, change the origin wildcard
     # to a particular domain name, e.g. "'www.example.com'"
-    Cors:
-      AllowMethods: "'*'"
-      AllowHeaders: "'*'"
-      AllowOrigin: "'*'"
+    # Cors:
+    #   AllowMethods: "'*'"
+    #   AllowHeaders: "'*'"
+    #   AllowOrigin: "'*'"
 Resources:
   Compose:
     Type: AWS::Serverless::Function
